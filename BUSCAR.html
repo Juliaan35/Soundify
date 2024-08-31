@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaz de Música</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gotham+Medium:wght@500&family=Gotham+Book:wght@300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Gotham Book', Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            display: flex;
+            height: 100vh;
+        }
+
+      .sidebar {
+            width: 120px;
+            height: 100vh;
+            background-color: #000;
+            padding:20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+position: fixed;
+        }
+        
+        .upper-section, .lower-section {
+            background-color: #181818;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 20px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: color 0.3s ease;
+    width: 250px;
+    height: 50px; 
+        }
+        
+        .menu-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+
+        .menu-item:hover {
+            color: white;
+        }
+
+        .menu-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 20px 0 10px;
+            color: #B3B3B3;
+        }
+
+        .search, .library {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 16px;
+            color: white;
+        }
+
+        .library .options {
+            display: flex;
+            align-items: center;
+        }
+
+        .library .options button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+width: 100px;
+        }
+
+        .tab {
+            padding: 6px 12px;
+            background-color: #282828;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: #3c3c3c;
+            color: white;
+        }
+          .menusss-a {
+            display: flex;
+            align-items: center;
+            padding: 13px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: color 0.3s ease;
+    width: 250px;
+    height: 50px; 
+        }      
+.menusss-a img {
+            width: 50px;
+            height: 50px;
+            border-radius: 40px;
+            margin-right: 15px;
+        }
+/* Contenedor principal para correr todos los elementos hacia la derecha */
+        .main-container {
+            margin-left: 340px; /* Deja un espacio de 360px en la izquierda */
+
+}
+
+        .charcoal-bar {
+            display: flex;
+            align-items: center;
+            padding: 20px 30px; /* Aumenta el espacio interno */
+            gap: 20px; /* Espacio entre los elementos dentro de la barra superior */
+        }
+
+        .black-arrows {
+            display: flex;
+            gap: 20px; /* Espacio entre las flechas */
+margin-left: -240px;
+        }
+
+        .black-arrows button {
+            background-color: #000; /* Fondo negro */
+            border: none;
+            color: #fff;
+            padding: 15px; /* Aumenta el tamaño de los botones */
+            border-radius: 50%;
+            cursor: pointer;
+
+        }
+
+        .gray-search {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background-color: #333; /* Fondo gris oscuro */
+            padding: 15px 20px; /* Aumenta el espacio interno en la barra de búsqueda */
+            border-radius: 25px;
+            margin-right: 10px; /* Espacio a la derecha de la barra de búsqueda */
+          width: 800px
+
+
+        }
+
+        .gray-search input {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            flex: 1;
+            padding-left: -30px; /* Aumenta el espacio interno a la izquierda del input */
+            outline: none;
+            font-size: 16px;
+ margin-right: 10px;
+        }
+
+        .gray-search input::placeholder {
+            color: #ccc; /* Color gris claro */
+        }
+
+        .gray-search button {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+
+        }
+
+        .icon-bar {
+            display: flex;
+            align-items: center;
+            gap:  -10px; /* Aumenta el espacio entre los iconos */
+margin-left: 50px;
+
+        }
+
+        .icon-bar a {
+            text-decoration: none;
+            color: #fff;
+            
+            padding: 15px 20px; /* Aumenta el espacio interno en los iconos */
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+
+ 
+        }
+
+        .icon-bar .white-profile {
+            background-image: url('https://lh3.googleusercontent.com/a/ACg8ocIVXuF5nwG5vcM6_x2EtevDabyzo8WL7uqxfMORQ2yCH0UQBFaN=s96-c-rg-br100'); /* Cambia esta URL por la de tu imagen */
+            background-size: cover;
+            width: 15px; /* Aumenta el tamaño del icono de perfil */
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+margin-left: 10px;
+}
+
+        .contenedor {
+            max-width: 1000px;
+            margin: auto;
+
+
+            grid-template-columns: repeat(4, 1fr); /* 4 recuadros por fila */
+            gap: 20px; /* Espacio entre recuadros */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .recuadros {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+    width: 520px; /* Ajusta el ancho del recuadro */
+    height: 165px;
+            grid-template-columns: repeat(4, 1fr); /* 4 recuadros por fila */
+            gap: 20px; /* Espacio entre recuadros */
+ margin-left: -210px;
+margin-top: 10px;
+
+        }
+
+        .recuadro {
+            background-color: #121212;
+            position: relative;
+            border-radius: 10px;
+            padding: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+
+        }
+
+        .recuadro .titulo {
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 2;
+margin-top: -100px;
+position: absolute;
+
+        }
+
+        .recuadro img {
+            position: absolute;
+            right: 10px;
+            bottom: 50px;
+            width: 100px;
+            height: 100px;
+            transform: rotate(25deg)scale(1.2);
+            z-index: 1;
+    top: 60px; 
+    left: 193px; 
+        }
+
+        .musica {
+            background-color: #D83890;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts {
+            background-color: #00826F;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-2 {
+            background-color: #8f50df;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+     .podcasts-3 {
+            background-color: #2d3e72;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+
+.podcasts-4 {
+            background-color: #a1bb65;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-5 {
+            background-color: #82e0aa;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-6 {
+            background-color: #3e94a7;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-7 {
+            background-color: #3e76a7;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-8 {
+            background-color: #8a939b;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-9 {
+            background-color: #0694d6;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-10 {
+            background-color: #bd86d3;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-11 {
+            background-color: #e56363;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-12 {
+            background-color: #f57d12;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-12 {
+            background-color: #af6ca6;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-13 {
+            background-color: #6098d3;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-14 {
+            background-color: #357e4f;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-15 {
+            background-color: #87d6f7;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-15 {
+            background-color: #cbdde5;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-16 {
+            background-color: #00826F;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-16 {
+            background-color: #dbcde0;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-17 {
+            background-color: #FFA07A;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+        .podcasts-18 {
+            background-color: #f9d285;
+    width: 245px; /* Ajusta el ancho del recuadro */
+    height: 123px;
+        }
+
+
+
+
+
+</style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="upper-section">
+            <div class="search">
+                <span>Inicio</span>
+            </div>
+            <div class="search">
+                <span>Buscar</span>
+            </div>
+        </div>
+        
+        <div class="lower-section">
+            <div class="library">
+
+            </div>
+            <div class="tabs">
+ 
+            </div>
+            <div class="menu-title"></div>
+            <div class="menu-item">
+                <img src="https://marcelolanegra.github.io/proyecto-spotifu/images/liked-songs-640.png" alt="Tus me gusta">
+                <div>
+                    <strong></strong><br>
+                    <span></span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="https://www.veve.me/comics/images/marketing/benefits/follow.svg" alt="Tus episodios">
+                <div>
+                    <strong></strong><br>
+                    <span></span>
+                </div>
+            </div>
+            <div class="menusss-a">
+                <img src="https://i.scdn.co/image/ab67616100005174e82c62cc8cf019aecfd71ee8" alt="Soft Pop Hits 2024">
+                <div>
+                    <strong></strong><br>
+                    <span></span>
+                </div>
+            </div>
+            <div class="menusss-a">
+                <img src="https://i.scdn.co/image/ab6761610000e5eb3bcef85e105dfc42399ef0ba" alt="Ed Sheeran">
+                <div>
+                    <strong></strong><br>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+  <!-- Contenedor principal -->
+    <div class="main-container">
+        <!-- Barra superior -->
+        <div class="charcoal-bar">
+            <!-- Flechas de navegación -->
+            <div class="black-arrows">
+                <button>&larr;</button>
+                <button>&rarr;</button>
+            </div>
+
+            <!-- Barra de búsqueda -->
+            <div class="gray-search">
+                <input type="text" placeholder="Buscar" value="">
+                <button>&times;</button>
+            </div>
+
+            <!-- Iconos de la parte superior derecha -->
+            <div class="icon-bar">
+                
+                <a href="#"><span>&#128276;</span></a> <!-- Campanita -->
+                <a href="perfil.html" class="white-profile"></a> 
+            </div>
+        </div>
+
+   <div class="contenedor">
+        <h1>Explorar todo</h1>
+        <div class="recuadros">
+            <div class="recuadro musica">
+                <span class="titulo">Música</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY.png" alt="Música">
+            </div>
+          <div class="recuadro podcasts">
+                <span class="titulo">Podcasts</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(1).png" alt="Podcasts">
+            </div>
+            <div class="recuadro podcasts-2">
+                <span class="titulo">Eventos en vivo</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(2).png" alt="Música">
+            </div>
+          <div class="recuadro podcasts-2">
+                <span class="titulo">Rap</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(3).png" alt="Podcasts">
+            </div>
+            <div class="recuadro podcasts-3">
+                <span class="titulo">Creadas para ti</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(4).png" alt="Música">
+            </div>
+          <div class="recuadro podcasts-4">
+                <span class="titulo">Nuevos lanzamientos</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(5).png" alt="Podcasts">
+            </div>
+          <div class="recuadro podcasts-5">
+                <span class="titulo">Latina</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(6).png" alt="Podcasts">
+            </div>
+          <div class="recuadro podcasts-6">
+                <span class="titulo">Pop</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(7).png" alt="Podcasts">
+            </div>
+          <div class="recuadro podcasts-7">
+                <span class="titulo">Hip hop</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(8).png" alt="Podcasts">
+            </div>
+          <div class="recuadro podcasts-8">
+                <span class="titulo">Musica Mexicana</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(9).png" alt="Podcasts">
+            </div>
+          <div class="recuadro podcasts-9">
+                <span class="titulo">Ranking</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(10).png" alt="Podcasts">
+            </div>
+          <div class="recuadro podcasts-10">
+                <span class="titulo">Hecho en Colombia</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(12).png" alt="Podcasts">
+            </div>
+          <div class="recuadro podcasts-11">
+                <span class="titulo">Rock</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(11).png" alt="Podcasts">
+            </div>
+          <div class="recuadro podcasts-12">
+                <span class="titulo">Salsa</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(13).png" alt="Podcasts">
+            </div>
+          <div class="recuadro podcasts-13">
+                <span class="titulo">Clasica</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(14).png" alt="Podcasts">
+            </div>
+          <div class="recuadro podcasts-14">
+                <span class="titulo">Solo en</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(15).png" alt="Podcasts">
+            </div>
+          <div class="recuadro podcasts-15">
+                <span class="titulo">Cumbia</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(16).png" alt="Podcasts">
+            </div>
+          <div class="recuadro podcasts-16">
+                <span class="titulo">Popular</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(17).png" alt="Podcasts">
+            </div>
+          <div class="recuadro podcasts-17">
+                <span class="titulo">Vallenato</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(18).png" alt="Podcasts">
+            </div>
+          <div class="recuadro podcasts-18">
+                <span class="titulo">Karaoke</span>
+                <img src="file:///C:/Users/JULIANQUINTERO/Downloads/TODAY%20(19).png" alt="Podcasts">
+            </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+</body>
+</html>
