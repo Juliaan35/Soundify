@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soundify</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gotham+Medium:wght@500&family=Gotham+Book:wght@300&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.png" type="image/png" sizes="100x100">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Gotham Book', Arial, sans-serif;
+            background: linear-gradient(to bottom, #000000, #000000);
+            color: white;
+            display: flex;
+            height: 125vh;
+        }
+        
+       .sidebar {
+            width: 360px;
+            height: 100vh;
+            background-color: #000;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+position: fixed;
+        }
+        
+        .upper-section, .lower-section {
+            background-color: #181818;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 13px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: color 0.3s ease;
+    width: 250px;
+    height: 50px; 
+        }
+        
+        .menu-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+            margin-right: 15px;
+        }
+
+        .menu-item:hover {
+            color: white;
+        }
+
+        .menu-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 20px 0 10px;
+            color: #B3B3B3;
+        }
+
+        .search, .library {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 16px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .library .options {
+            display: flex;
+            align-items: center;
+        }
+
+        .library .options button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+width: 100px;
+        }
+
+        .tab {
+            padding: 6px 12px;
+            background-color: #282828;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: background-color 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: #3c3c3c;
+            color: white;
+        }
+
+     
+        /* Contenedor principal para correr todos los elementos hacia la derecha */
+        .main-container {
+            margin-left: 340px; /* Deja un espacio de 360px en la izquierda */
+
+}
+
+
+
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            padding: 20px 10px; /* Aumenta el espacio interno del menú */
+gap: 15px; /* Aumenta el espacio entre los ítems del menú */
+margin: -15px 0px 0px 0;
+margin-left: -10px;
+        }
+
+        .dark-menu-item {
+            color: #ccc; /* Color gris claro */
+            background-color: #282828; /* Fondo carbón */
+            padding: 12px 14px; /* Aumenta el tamaño de los ítems del menú */
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 16px; /* Aumenta el tamaño del texto */
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+margin-left: 15px;
+        }
+
+        .dark-menu-item:hover {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-menu-item.active, .dark-menu-item:active {
+            background-color: #fff; /* Fondo blanco */
+            color: #000; /* Texto negro */
+        }
+
+          .menusss-a {
+            display: flex;
+            align-items: center;
+            padding: 13px 0;
+            font-size: 14px;
+            cursor: pointer;
+            color: #B3B3B3;
+            transition: color 0.3s ease;
+    width: 250px;
+    height: 50px; 
+        }      
+.menusss-a img {
+            width: 50px;
+            height: 50px;
+            border-radius: 40px;
+            margin-right: 15px;
+        }
+        .menusss-a:hover {
+            color: white;
+        }
+
+        .menusss-a-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 20px 0 10px;
+            color: #B3B3B3;
+        }
+
+
+
+
+       .slider {
+            width: 100%; /* Se adapta al tamaño del contenedor padre */
+            max-width: 900px; /* Ancho máximo opcional */
+            overflow: hidden;
+            position: relative;
+left: -480px;
+top: 120px;
+            border-radius: 10px;
+        }
+
+        .slides {
+            display: flex;
+            height: 100%;
+            animation: slide 28s infinite;
+        }
+
+        .slide {
+            flex-shrink: 0;
+            width: 100%; /* Las imágenes ocuparán el 100% del ancho del contenedor */
+            height:  /* La altura se ajustará automáticamente */
+        }
+
+        .slide img {
+            width: 100%; /* La imagen se ajusta al 100% del contenedor */
+            height: auto; /* Mantiene la proporción de la imagen */
+            object-fit: cover;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            14.28% { transform: translateX(0); }
+            19.28% { transform: translateX(-100%); }
+            33.56% { transform: translateX(-100%); }
+            38.56% { transform: translateX(-200%); }
+            52.84% { transform: translateX(-200%); }
+            57.84% { transform: translateX(-300%); }
+            72.12% { transform: translateX(-300%); }
+            77.12% { transform: translateX(-400%); }
+            91.40% { transform: translateX(-400%); }
+            96.40% { transform: translateX(-500%); }
+            100% { transform: translateX(-600%); }
+        }
+
+
+        .container {
+            display: flex; /* Flexbox para alinear los recuadros en fila */
+            gap: 50px; /* Espacio entre recuadros */
+margin-top: 138px;
+margin-left: -430px;
+
+        }
+
+        .artist-box {
+            background: #282828; /* Color fijo del recuadro */
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            cursor: pointer;
+            text-align: center; /* Centrar el texto */
+            width: 100px; /* Ancho fijo del recuadro */
+            color: white; /* Color del texto en el recuadro */
+
+        }
+       .albums {
+            display: flex;
+            gap: 6px; /* Más espacio entre cada álbum */
+
+        }
+
+        .album {
+            text-align: left;
+            width: 180px;
+        }
+
+        .album-mmm{
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            padding: 10px;
+    left: -500px;  /* Mueve a la izquierda */
+    top: -10px;  
+        }
+
+        .album-mmm:hover {
+            background-color: #333; /* Recuadro oscuro que abarca imagen y texto */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Sombra */
+        }
+
+        .album-mmm img {
+            width: 100%;
+            height: auto;
+            border-radius: 7px;
+            transition: filter 0.3s ease;
+            position: relative; /* Asegura que el botón se posicione en relación a la imagen */
+        }
+
+        .album-ti {
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 0 10px; /* Espacio a los lados del texto */
+            position: relative;
+            z-index: 2;
+        }
+
+        .play-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background-color: #1DB954;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+            z-index: 3; /* Asegura que el botón se mantenga encima del recuadro oscuro */
+top: 140px;
+left: 140px; 
+        }
+
+        .play-button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Recuadro oscuro en imagen y texto */
+        .album-mmm::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .album-mmm:hover::before {
+            opacity: 1;
+        }
+
+        .album-mmm:hover img {
+            filter: brightness(50%); /* Efecto en la imagen */
+        }
+
+        .album-mmm:hover .play-button {
+            opacity: 1;
+ 
+    }   
+
+
+
+        .music-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .music-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #2a3d31;
+            border-radius: 10px;
+            padding: 10px;
+            width: 260px;
+            color: white;
+            font-size: 14px;
+            position: relative;
+            transition: background-color 0.3s ease;
+    left: -455px;  /* Mueve a la izquierda */
+    top: 40px;  
+        }
+
+        .music-box img {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .music-box .text {
+            flex-grow: 1;
+        }
+
+        .music-box .playy-button {
+            width: 25px;
+            height: 25px;
+            background-color: #1db954;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            right: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .music-box .playy-button::before {
+            content: '';
+            border-style: solid;
+            border-width: 6px 0 6px 10px;
+            border-color: transparent transparent transparent white;
+        }
+
+        .music-box:hover .playy-button {
+            opacity: 1;
+        }
+
+.title {
+    font-size: 28px;
+    color: #ffffff;
+    background: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-left: -1750px;  /* Mueve a la izquierda */
+    margin-top: 80px; 
+  }
+
+
+.recuadro {
+    position: absolute;
+    top: 100px; /* Ajusta la posición vertical */
+    left: 360px; /* Ajusta la posición horizontal */
+    width: 970px; /* Ancho del recuadro */
+    height: 2070px; /* Alto del recuadro */
+            background: linear-gradient(180deg, #181818 0%, #181818 100%);
+    z-index: -1; /* Asegura que esté detrás de otros elementos */
+            border-radius: 15px;
+}
+    .recuadrol {
+      position: absolute;
+      top: 20px; /* Ajusta la posición vertical */
+      left: 360px; /* Ajusta la posición horizontal */
+      width: 970px; /* Ancho del recuadro */
+      height: 60px; /* Alto del recuadro */
+      background-color: rgba(29, 185, 84, 0.8); /* Color inicial verde Spotify con transparencia */
+      z-index: -1; /* Asegura que esté detrás de otros elementos */
+      border-radius: 15px;
+      box-shadow: 0px 0px 80px rgba(29, 185, 84, 1); /* Sombra más visible */
+      transition: background-color 6s ease-in-out, box-shadow 6s ease-in-out; /* Transiciones suaves */
+    }
+
+    @keyframes colorChange {
+      0% {
+        background-color: rgba(29, 185, 84, 0.8); /* Verde oscuro con transparencia */
+        box-shadow: 0px 0px 50px rgba(29, 185, 84, 1); /* Sombra verde */
+      }
+      20% {
+        background-color: rgba(108, 67, 165, 0.8); /* Morado oscuro con transparencia */
+        box-shadow: 0px 0px 50px rgba(108, 67, 165, 1); /* Sombra morada */
+      }
+      40% {
+        background-color: rgba(191, 53, 127, 0.8); /* Rosa oscuro con transparencia */
+        box-shadow: 0px 0px 50px rgba(191, 53, 127, 1); /* Sombra rosa */
+      }
+      60% {
+        background-color: rgba(0, 138, 108, 0.8); /* Verde azulado oscuro con transparencia */
+        box-shadow: 0px 0px 50px rgba(0, 138, 108, 1); /* Sombra verde azulado */
+      }
+      80% {
+        background-color: rgba(184, 134, 11, 0.8); /* Amarillo oscuro con transparencia */
+        box-shadow: 0px 0px 50px rgba(184, 134, 11, 1); /* Sombra amarilla */
+      }
+      100% {
+        background-color: rgba(29, 185, 84, 0.8); /* Vuelve al verde oscuro con transparencia */
+        box-shadow: 0px 0px 50px rgba(29, 185, 84, 1); /* Sombra verde */
+      }
+    }
+
+    /* Inicia la animación del color */
+    .recuadrol {
+      animation: colorChange 20s infinite;
+    }
+
+
+
+        /* Estilo para ajustar el tamaño de la imagen */
+        .imagen-ajustada {
+            width: 800px; /* Cambia este valor al ancho que desees */
+            height: 130px; /* Mantiene la proporción original */
+            margin-left: 380px;
+margin-top: -10px;
+z-index: 10; 
+        }
+
+
+        footer {
+            background-color: #181818;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+width: 930px;
+height: 360px;
+    margin-left: -511px;  /* Mueve a la izquierda */
+    margin-top: 80px;
+border-radius: 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            width: 70%;
+        }
+
+        .footer-column {
+            margin: 0 20px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-column ul li {
+            margin: 5px 0;
+        }
+
+        .footer-column a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-column a:hover {
+            color: #1db954;
+        }
+
+        .footer-social {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .footer-social a {
+            color: white;
+            margin: 0 10px;
+            font-size: 24px;
+            transition: color 0.2s;
+        }
+
+        .footer-social a:hover {
+            color: #1db954;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .footer-bottom p {
+            margin: 5px 0;
+        }
+
+        .footer-divider {
+            border-top: 1px solid #444;
+            width: 100%;
+            margin: 20px 0;
+margin-top: 10px;
+        }
+
+
+
+.containerls {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+
+}
+
+.box {
+    width: 300px;
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+    margin-left: -501px;  /* Mueve a la izquierda */
+    margin-top: 20px;
+}
+
+.background-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    transition: transform 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+}
+
+.box:hover .background-img {
+    transform: scale(1.1);  /* La imagen crece un 10% dentro del recuadro */
+border-radius: 20px;
+}
+
+.mini-cover {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.playk-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.box:hover .playk-btn {
+    opacity: 1;
+}
+
+.textl {
+    margin-left: 70px;
+    color: white;
+}
+
+.image-name {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.creator-name {
+    font-size: 12px;
+    opacity: 0.8;
+    top: 10px;
+}
+.info {
+    position: absolute;
+    top: 7px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+        .custom-image {
+            width: 180px; /* Puedes ajustar el tamaño aquí */
+            height: 80px;
+            z-index: 9999;
+    margin-top: -150px;
+margin-left: -130px; 
+        }
+
+
+        .content {
+            padding: 20px;
+            color: #fff; /* Texto en blanco */
+            text-align: center;
+        }
+
+        /* Estilo de la barra de desplazamiento (WebKit) */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000000; /* Color oscuro de la pista */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #ccc; /* Color verde estilo Spotify */
+            border-radius: 6px;
+        }
+
+
+ </style>
+</head>
+<body>
+ <div class="recuadro"></div>
+
+<!-- Importar FontAwesome desde el CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div class="recuadrol">
+  <i class="fas fa-compass"  style="font-size: 37px; margin-left:910px; margin-top:10px;"></i> <!-- Explorar -->
+
+</div>
+
+    <img src="file:///C:/Users/JULIANQUINTERO/Downloads/Dise%C3%B1o_sin_t%C3%ADtulo__5_-removebg-preview.png" 
+         alt="Descripción de la imagen" 
+         class="imagen-ajustada">
+
+
+
+    <div class="sidebar">
+        <div class="upper-section">
+            <div class="search">
+      <a href="indexx.html" class="search">Inicio</a>
+            </div>
+     <a href="BUSCAR.html" class="search">Buscar</a>
+        </div>
+        
+        <div class="lower-section">
+            <div class="library">
+                <span>Acceso Rápido</span>
+                <div class="options">
+                    <button>+</button>
+                    <button>→</button>
+                </div>
+            </div>
+            <div class="tabs">
+                <div class="tab">Playlists</div>
+                <div class="tab">Artistas</div>
+                <div class="tab">Álbumes</div>
+            </div>
+            <div class="menu-title">Recientes</div>
+            <div class="menu-item">
+                <img src="IMAGI.png" alt="Tus me gusta">
+                <div>
+                    <strong>Listas de Reproducción Destacadas</strong><br>
+                    <span>Semanal • 15 Playlist</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="IMAGI2.png" alt="Tus episodios">
+                <div>
+                    <strong>Nuevos Lanzamientos</strong><br>
+                    <span>Lanzamientos guardados y descargados</span>
+                </div>
+            </div>
+            <div class="menusss-a">
+                <img src="IL.png" alt="Soft Pop Hits 2024">
+                <div>
+                    <strong>Lo Mejor del Año</strong><br>
+                    <span>Soundify</span>
+                </div>
+            </div>
+            <div class="menusss-a">
+                <img src="IL1.png" alt="Ed Sheeran">
+                <div>
+                    <strong>Eventos y Conciertos</strong><br>
+                    <span>Soundify</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contenedor principal -->
+    <div class="main-container">
+        <!-- Barra superior -->
+        <div class="charcoal-bar">
+ 
+
+
+
+
+
+
+    <div class="slider">
+        <div class="slides">
+            <div class="slide">
+                <img src="bad bunny (1).png">
+            </div>
+            <div class="slide">
+                <img src="bad bunny (2).png" alt="Imagen 2">
+            </div>
+            <div class="slide">
+                <img src="bad bunny (7).png" alt="Imagen 3">
+            </div>
+            <div class="slide">
+                <img src="bad bunny (4).png" alt="Imagen 4">
+            </div>
+            <div class="slide">
+                <img src="bad bunny (3).png" alt="Imagen 5">
+            </div>
+            <div class="slide">
+                <img src="bad bunny (8).png" alt="Imagen 6">
+            </div>
+            <div class="slide">
+                <img src="bad bunny (6).png" alt="Imagen 7">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="artist-box">Todo</div>
+        <div class="artist-box">Musica</div>
+        <div class="artist-box">Podcast</div>
+        <div class="artist-box">Perfiles</div>
+        <div class="artist-box">Programas</div>
+    </div>
+
+  <div class="music-container">
+        <div class="music-box">
+            <img src="IL1.png" alt="Icono">
+            <div class="text">Recomendaciones</div>
+            <div class="playy-button"></div>
+        </div>
+        <div class="music-box">
+            <img src="IL.png" alt="Icono">
+            <div class="text">Marcas</div>
+            <div class="playy-button"></div>
+        </div>
+        <div class="music-box">
+            <img src="IL1.png" alt="Album">
+            <div class="text">Soundify Studio</div>
+            <div class="playy-button"></div>
+        </div>
+    </div>
+
+<h1 class="title">Creado para ti</h1>
+    <div class="albums">   
+        <div class="album">
+            <div class="album-mmm">
+                <img src="Diseño sin título (4).png" La Llamada">
+                <div class="album-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">Mix Diario 1<br>Myke towers • Canserbero</div>
+                        <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="Diseño sin título (5).png" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Mix Diario 2<br>Bad bunny,Karol G,Juanes</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="Diseño sin título (6).png" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Rada De Novedades<br>Ultmas Novedades </div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="Diseño sin título (7).png" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">Para Ti<br>Playlist General</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="EVENTOS EN VIVO.png" alt="De Farra Con Yeison Jiménez">
+                <div class="album-ti"><a href="https://www.ejemplo.com"  style="color: white; text-decoration: none;">Eventos en VIVO<br>De Soundify</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="albums">   
+        <div class="album">
+            <div class="album-mmm">
+                <img src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/0EmeFodog0BfCgMzAIvKQp/en" La Llamada">
+                <div class="album-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">RADIO<br>Shakira</div>
+                        <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/790FomKkXshlbRYZFtlgla/en" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">RADIO<br>Karol G</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/5n9bMYfz9qss2VOW89EVs2/de" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">RADIO<br>Bomba Estereo</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/49Z1AvGeUaBSanPaOmplK6/en" alt="De Farra Con Yeison Jiménez">
+                <div class="album-ti"><a href="https://www.ejemplo.com"  style="color: white; text-decoration: none;">RADIO<br>Andres Cepeda</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/5M9Bb4adKAgrOFOhc05Y50/en" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">RADIO<br>Pablo Alboran</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="albums">   
+        <div class="album">
+            <div class="album-mmm">
+                <img src="https://e.snmc.io/i/600/s/94a8d4ce929656330e701e071f5ef57a/10851139/alan-walker-spotify-dj-mix-Cover-Art.jpg" La Llamada">
+                <div class="album-ti"><a href="MIXdiario.html" style="color: white; text-decoration: none;">DJ MIX<br>Alan Walker</div>
+                        <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://e.snmc.io/i/1200/s/f8c20340a2924a6faa8f2f3832dd7b44/10487883" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">DJ MIX<br>Hardwell</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVWX6AQSneIdZHiC2XUtAcoSc2PRhWrj2UAygG-oysE5OlAFXFR949QNGLEETYlQdbDLM&usqp=CAU" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">DJ MIX<br>Moti</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://e.snmc.io/i/1200/s/a5589246130cb3d3ce09a1a622391fd6/10760945" alt="Vete">
+                <div class="album-ti"><a href="https://www.ejemplo.com" style="color: white; text-decoration: none;">DJ MIX<br>Vintage Culture</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+        <div class="album">
+            <div class="album-mmm">
+
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLbsPERR3GwKz-0inIBSO9VoOyy34QPPebQlnBKd3oE5-11Aje-QuPUdEBbu-2YG7Duao&usqp=CAU" alt="De Farra Con Yeison Jiménez">
+                <div class="album-ti"><a href="https://www.ejemplo.com"  style="color: white; text-decoration: none;">DJ MIX<br>Martin Garrix</div>
+                <div class="play-button">
+                    <img src="https://www.pngall.com/wp-content/uploads/5/Black-Play-Button-PNG-Free-Download.png" alt="Play">
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="containerls">
+        <div class="box">
+            <img src="1.png" alt="Imagen 1" class="background-img">
+            <div class="info">
+                <img src="https://i.scdn.co/image/ab6761610000e5eb744a4243fb6cc938011a98f4" alt="Mini Carátula 1" class="mini-cover">
+                <div class="textl">
+                    <p class="image-name">YHLQMDLG</p>
+                    <p class="creator-name">Bad Bunny</p>
+                </div>
+            </div>
+            <button class="playk-btn">Play</button>
+        </div>
+        <div class="box">
+            <img src="2.png" alt="Imagen 2" class="background-img">
+            <div class="info">
+                <img src="https://i.scdn.co/image/ab6761610000e5eb6d8b48abede0f9e433aa6e49" alt="Mini Carátula 1" class="mini-cover">
+                <div class="textl">
+                    <p class="image-name">Fórmula Vol. 1</p>
+                    <p class="creator-name">Romeo Santos</p>
+                </div>
+            </div>
+            <button class="playk-btn">Play</button>
+        </div>
+        <div class="box">
+            <img src="3.png" alt="Imagen 3" class="background-img">
+            <div class="info">
+                <img src="https://i.scdn.co/image/ab67616100005174e82c62cc8cf019aecfd71ee8" alt="Mini Carátula 1" class="mini-cover">
+                <div class="textl">
+                    <p class="image-name">Feliz Cumpleaños Ferxxo</p>
+                    <p class="creator-name">Feid</p>
+                </div>
+            </div>
+            <button class="playk-btn">Play</button>
+        </div>
+        <div class="box">
+            <img src="4.png" alt="Imagen 4" class="background-img">
+            <div class="info">
+                <img src="https://i.scdn.co/image/ab6761610000e5eb9e528993a2820267b97f6aae" alt="Mini Carátula 1" class="mini-cover">
+                <div class="textl">
+                    <p class="image-name">After Hours</p>
+                    <p class="creator-name">The Weeknd</p>
+                </div>
+            </div>
+            <button class="playk-btn">Play</button>
+        </div>
+        <div class="box">
+            <img src="5.png" alt="Imagen 5" class="background-img">
+            <div class="info">
+                <img src="https://i.scdn.co/image/ab6761610000e5eba91405d63c939682e4efdcbc" alt="Mini Carátula 1" class="mini-cover">
+                <div class="textl">
+                    <p class="image-name">Apa y Can</p>
+                    <p class="creator-name">Canserbero</p>
+                </div>
+            </div>
+            <button class="playk-btn">Play</button>
+        </div>
+        <div class="box">
+            <img src="6.png" alt="Imagen 3" class="background-img">
+            <div class="info">
+                <img src="https://i.scdn.co/image/ab6761610000e5ebf7db7c8ede90a019c54590bb" alt="Mini Carátula 1" class="mini-cover">
+                <div class="textl">
+                    <p class="image-name">Fine Line</p>
+                    <p class="creator-name">Harry Styles</p>
+                </div>
+            </div>
+            <button class="playk-btn">Play</button>
+        </div>
+        <div class="box">
+            <img src="7.png" alt="Imagen 4" class="background-img">
+            <div class="info">
+                <img src="https://i.scdn.co/image/ab6761610000e5eb68f6e5892075d7f22615bd17" alt="Mini Carátula 1" class="mini-cover">
+                <div class="textl">
+                    <p class="image-name">21</p>
+                    <p class="creator-name">Adele</p>
+                </div>
+            </div>
+            <button class="playk-btn">Play</button>
+        </div>
+        <div class="box">
+            <img src="8.png" alt="Imagen 5" class="background-img">
+            <div class="info">
+                <img src="https://i.scdn.co/image/ab6761610000e5eb1ba8fc5f5c73e7e9313cc6eb" alt="Mini Carátula 1" class="mini-cover">
+                <div class="textl">
+                    <p class="image-name">Parachutes</p>
+                    <p class="creator-name">Coldplay</p>
+                </div>
+            </div>
+            <button class="playk-btn">Play</button>
+        </div>
+        <div class="box">
+            <img src="9.png" alt="Imagen 6" class="background-img">
+            <div class="info">
+                <img src="https://dice-i-scdn-co.imgix.net/image/ab6761610000e5eb12a2ef08d00dd7451a6dbed6" alt="Mini Carátula 1" class="mini-cover">
+                <div class="textl">
+                    <p class="image-name">x (Deluxe Edition)</p>
+                    <p class="creator-name">Ed Sheera</p>
+                </div>
+            </div>
+            <button class="playk-btn">Play</button>
+        </div>
+    </div>
+
+
+    <!-- Agrega más contenedores de video según sea necesario -->
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>Compañía</h3>
+                    <ul>
+                        <li><a href="#">Acerca de</a></li>
+                        <li><a href="#">Empleo</a></li>
+                        <li><a href="#">For the Record</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Comunidades</h3>
+                    <ul>
+                        <li><a href="#">Para artistas</a></li>
+                        <li><a href="#">Desarrolladores</a></li>
+                        <li><a href="#">Publicidad</a></li>
+                        <li><a href="#">Inversionistas</a></li>
+                        <li><a href="#">Proveedores</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Enlaces útiles</h3>
+                    <ul>
+                        <li><a href="#">Ayuda</a></li>
+                        <li><a href="#">App móvil gratis</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Planes de Spotify</h3>
+                    <ul>
+                        <li><a href="#">Premium Individual</a></li>
+                        <li><a href="#">Premium Duo</a></li>
+                        <li><a href="#">Premium Familiar</a></li>
+                        <li><a href="#">Premium para Estudiantes</a></li>
+                        <li><a href="#">Versión gratuita</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+            </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            <p>
+                <a href="#" style="color: white;">Legal</a> | 
+                <a href="#" style="color: white;">Seguridad y Centro de Privacidad</a> | 
+                <a href="#" style="color: white;">Política de Privacidad</a> | 
+                <a href="#" style="color: white;">Cookies</a> | 
+                <a href="#" style="color: white;">Sobre los anuncios</a> | 
+                <a href="#" style="color: white;">Accesibilidad</a>
+            </p>
+            <p>&copy; 2024 Spotify AB</p>
+        </div>
+    </footer>
+
+    <div class="image-container">
+        <img src="JULIAN.png" alt="Imagen de Julian" class="custom-image">
+    </div>
+
+    <script>
+        // Opcional: Para pausar el video cuando el mouse sale de la zona
+        document.querySelectorAll('.video-container video').forEach(video => {
+            video.addEventListener('mouseout', function() {
+                this.pause();
+                this.currentTime = 0; // Reinicia el video al salir
+            });
+        });
+    </script>
+
+</body>
+</html>
